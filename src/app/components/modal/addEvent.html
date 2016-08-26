@@ -1,0 +1,37 @@
+<form novalidate name="form" data-ng-submit="$ctrl.ok()">
+  <div class="modal-header">
+    <h3 class="modal-title" id="modal-title">Add event!</h3>
+  </div>
+  <ui>
+    <li class="text-danger" data-ng-repeat="error in $ctrl.errors">{{error}}</li>
+  </ui>
+  <div class="modal-body" id="modal-body">
+    <div class="form-group">
+      <label>Name</label>
+      <input required type="text" name="name" data-ng-model="$ctrl.event.name" class="form-control" placeholder="Event name">
+    </div>
+    <div class="form-group">
+      <label>Start date</label>
+      <p class="input-group">
+        <input type="text" class="form-control" uib-datepicker-popup ng-model="$ctrl.event.startDate" is-open="popup1.opened" ng-required="true"/>
+        <span class="input-group-btn">
+          <button type="button" class="btn btn-default" ng-click="popup1.opened=true"><i class="glyphicon glyphicon-calendar"></i></button>
+        </span>
+      </p>
+      <div uib-timepicker ng-model="$ctrl.event.startDate"></div>
+    </div>
+    <div class="form-group">
+      <label>End date</label>
+      <p class="input-group">
+        <input type="text" class="form-control" uib-datepicker-popup ng-model="$ctrl.event.endDate" is-open="popup2.opened" ng-required="true"/>
+        <span class="input-group-btn">
+          <button type="button" class="btn btn-default" ng-click="popup2.opened=true"><i class="glyphicon glyphicon-calendar"></i></button>
+        </span>
+      </p>
+      <div uib-timepicker ng-model="$ctrl.event.endDate"></div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="submit" class="btn btn-default">Submit</button>
+  </div>
+</form>

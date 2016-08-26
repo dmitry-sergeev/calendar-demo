@@ -1,4 +1,4 @@
-(function() {
+(function () {
   'use strict';
 
   angular
@@ -6,33 +6,55 @@
     .controller('MainController', MainController);
 
   /** @ngInject */
-  function MainController($timeout, webDevTec, toastr) {
+  function MainController($timeout, $uibModal, moment, CalendarDataProvider) {
     var vm = this;
+    vm.dayRange = 7;
+    vm.startDate = moment().startOf('week');
 
-    vm.awesomeThings = [];
-    vm.classAnimation = '';
-    vm.creationDate = 1472202871295;
-    vm.showToastr = showToastr;
+    vm.subtractDay = function () {
+      vm.startDate = vm.startDate.subtract(1, 'day');
+    };
+
+    vm.addDay = function () {
+      vm.startDate = vm.startDate.add(1, 'day');
+    };
+
+    vm.setDayRange = function (i) {
+      vm.dayRange = i;
+    };
+
+    vm.getDate = function (date, hour) {
+      return vm.startDate.clone().add(date, 'day').add(hour, 'hour');
+    };
+
+    vm.getDateName = function (date, hour) {
+      return vm.startDate.clone().add(date, 'day').add(hour, 'hour').format("DD/MM ha");
+    };
+
+    vm.addObject = function () {
+      var modalInstance = $uibModal.open({
+        templateUrl: 'app/components/modal/addEvent.html',
+        controller: 'addEventController',
+        controllerAs: '$ctrl'
+      });
+
+      modalInstance.result.then(function (item) {
+        vm.calendarData.push(item);
+      });
+    };
 
     activate();
 
     function activate() {
-      getWebDevTec();
-      $timeout(function() {
-        vm.classAnimation = 'rubberBand';
-      }, 4000);
+      getCalendarData();
     }
 
-    function showToastr() {
-      toastr.info('Fork <a href="https://github.com/Swiip/generator-gulp-angular" target="_blank"><b>generator-gulp-angular</b></a>');
-      vm.classAnimation = '';
-    }
+    function getCalendarData() {
+      vm.calendarData = CalendarDataProvider.getCalendarData();
 
-    function getWebDevTec() {
-      vm.awesomeThings = webDevTec.getTec();
-
-      angular.forEach(vm.awesomeThings, function(awesomeThing) {
-        awesomeThing.rank = Math.random();
+      angular.forEach(vm.calendarData, function (event) {
+        event.startDate = moment(event.startDate);
+        event.endDate = moment(event.endDate);
       });
     }
   }
