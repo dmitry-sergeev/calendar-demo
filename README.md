@@ -8,8 +8,11 @@ How to start, test and use Calendar Demo? First, you need [Node.js](https://node
     
 Once the project is cloned you can use the following commands to run and test the project:
 
-- **npm i**
-- **bower i**
-- **gulp serve** (will start the local web server on localhost:3000)
-- **gulp test** (test runs)
-
+```
+  cd calendar-demo
+  npm i
+  bower i
+  gulp serve
+  gulp test
+  
+```
